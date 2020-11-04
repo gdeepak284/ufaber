@@ -1,0 +1,104 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}Task Manager | Home{% endblock %}
+
+{% block content %}
+{% for project in project_list %}
+
+<style>
+    table.blueTable {
+  border: 1px solid #1C6EA4;
+  background-color: #EEEEEE;
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+table.blueTable td, table.blueTable th {
+  border: 1px solid #AAAAAA;
+  padding: 3px 2px;
+}
+table.blueTable tbody td {
+  font-size: 13px;
+}
+table.blueTable tr:nth-child(even) {
+  background: #D0E4F5;
+}
+table.blueTable thead {
+  background: #1C6EA4;
+  background: -moz-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  background: -webkit-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  background: linear-gradient(to bottom, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  border-bottom: 2px solid #444444;
+}
+table.blueTable thead th {
+  font-size: 15px;
+  font-weight: bold;
+  color: #FFFFFF;
+  border-left: 2px solid #D0E4F5;
+}
+table.blueTable thead th:first-child {
+  border-left: none;
+}
+
+table.blueTable tfoot {
+  font-size: 14px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #D0E4F5;
+  background: -moz-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+  background: -webkit-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+  background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+  border-top: 2px solid #444444;
+}
+table.blueTable tfoot td {
+  font-size: 14px;
+}
+table.blueTable tfoot .links {
+  text-align: right;
+}
+table.blueTable tfoot .links a{
+  display: inline-block;
+  background: #1C6EA4;
+  color: #FFFFFF;
+  padding: 2px 8px;
+  border-radius: 5px;
+}
+</style>
+<table class="blueTable">
+<thead><tr><td colspan="2" align="center">{{project.name}}</td></tr></thead>
+<tfoot>
+<tr>
+<td colspan="2">
+<div class="links"><a href="#">&laquo;</a> <a class="active" href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">&raquo;</a></div>
+</td>
+</tr>
+</tfoot>
+<tbody>
+<tr><td>Created by : </td><td>{{project.user.username | capfirst}}</td></tr>
+<tr><td>Date added : </td><td>{{ project.date_added }}</td></tr>
+<tr><td>Description : </td><td>{{ project.description | safe }}</td></tr>
+{% if project.user == project.user %}
+<tr><td>
+    <div class="col-md-3">
+        <a href="{% url 'editProject' project.id %}" class="btn btn-primary pull-right">Edit</a>
+    </div>
+</td><td>
+    <div class="col-md-3">
+        <a href="{% url 'deleteProject' project.id %}" class="btn btn-danger pull-right">Delete</a>
+    </div>
+</td></tr>
+<tr><td>
+    <div class="col-md-3">
+        <a href="{% url 'createSubTask' project.id %}" class="btn btn-primary pull-right">Create Task</a>
+    </div>
+</td><td>
+    <div class="col-md-3">
+        <a href="{% url 'myProject' project.id %}" class="btn btn-primary pull-right">View Tasks</a>
+    </div>
+</td></tr>
+{% endif %}
+</tbody>
+</table>
+
+{% endfor %}
+{% endblock %}

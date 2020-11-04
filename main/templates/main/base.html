@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="Task Manager">
+
+    <title>{% block title %}{% endblock %}</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{% static 'main/css/custom.css' %}"/>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% url 'home' %}" style="color:#13a5a6;font:bold">Task Manager</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav select-active">
+                    <li class="{% if homeTabActive %}active{% endif %}"><a href="{% url 'home' %}">Home</a></li>
+                    <li class="{% if allTaskTabActive %}active{% endif %}"><a href="{% url 'allTasks' %}">All Tasks</a></li>
+                    <li class="{% if myTaskTabActive %}active{% endif %}"><a href="{% url 'createProject' %}">Create Project</a></li>
+                    <li><a href="{% url 'newTask' %}" class="btn btn-xs btn-default create-btn" style="padding:5px 10px;">Create Task</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if user.is_authenticated %}
+                        <li><a href="#">{{user.username|capfirst}}</a></li>
+                        <li><a href="{% url 'logout' %}?next=/">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}?next={{request.path}}">Login</a></li>
+                        <li><a href="{% url 'signup' %}?next={{request.path}}">Signup</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container page-wrapper">
+        {% block content %} {% endblock %}
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

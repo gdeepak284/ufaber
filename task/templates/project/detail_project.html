@@ -1,0 +1,30 @@
+{% extends 'main/base.html' %}
+{% load humanize %}
+
+{% block title %}{{project.name}} {% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+            {% if project %}
+                <h3><b>Project Name: </b>{{project.name}}</h3><hr>
+                <h3><b>Project description: </b>{{project.description}}</h3><hr>
+                <h3><b>Project date_added: </b>{{project.date_added}}</h3>
+                <img src="/Users/deepakg/PycharmProjects/TaskManagement/uploads/Deepak.jpeg">
+
+                <h1>List of Tasks under this project</h1>
+                {% if tasks %}
+                    {% for task in tasks %}
+                        <div class="row">
+                            <div class="col-md-offset-2 col-md-8">
+                                <a href="{% url 'taskDetail' task.id%}">{{ task.name }}</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+            {% endif %}
+        </div>
+
+    </div>
+{% endblock %}
