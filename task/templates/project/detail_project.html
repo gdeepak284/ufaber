@@ -10,7 +10,9 @@
                 <h3><b>Project Name: </b>{{project.name}}</h3><hr>
                 <h3><b>Project description: </b>{{project.description}}</h3><hr>
                 <h3><b>Project date_added: </b>{{project.date_added}}</h3>
-                <img src="/Users/deepakg/PycharmProjects/TaskManagement/uploads/Deepak.jpeg">
+                {% if project.avatar %}
+                    <img src="{{ project.avatar.url }}" alt="img" width="200" height="200">
+                {% endif %}
 
                 <h1>List of Tasks under this project</h1>
                 {% if tasks %}
