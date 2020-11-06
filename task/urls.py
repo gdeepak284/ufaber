@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^(?P<taskid>\d+)/delete/$', views.DeleteTaskView.as_view(), name='deleteTask'),
     path('delete-project/<projectid>', views.DeleteProjectView.as_view(), name='deleteProject'),
     url(r'^(?P<projectid>\d+)/createsubtask/$', views.CreateSubTaskView.as_view(), name='createSubTask'),
+    url(r'^(?P<projectid>\d+)/createtask/$', views.CreateTaskView.as_view(), name='createTask'),
 
     # url(r'^(?P<taskid>\d+)/edit/$', views.UpdateProjectView.as_view(), name='editProject'),
 

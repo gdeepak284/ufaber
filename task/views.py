@@ -15,7 +15,6 @@ from .models import Task, Project, SubTask
 def projectDetail(request, projectid):
     project = get_object_or_404(Project, id=projectid)
     tasks = Task.objects.filter(project=project)
-    print(tasks)
     context = {'project': project,
                'tasks': tasks}
     return render(request, 'project/detail_project.html', context)
@@ -50,7 +49,7 @@ class MyTaskView(TaskIndexView, LoginRequired):
 
     def get_context_data(self, *args, **kwargs):
         context = super(TaskIndexView, self).get_context_data(*args, **kwargs)
-        task_list = Task.objects.filter(user=self.request.user)
+        task_list = Task.objects.filter(assignee=self.request.user)
         paginator = Paginator(task_list, 6)
 
         page = self.request.GET.get('page')
@@ -73,7 +72,7 @@ def taskDetail(request, taskid):
     subtasks = SubTask.objects.filter(task=task)
     context = {'task': task,
                'subtasks': subtasks}
-    if task.user == request.user:
+    if task.assignee == request.user:
         context['myTaskTabActive'] = True
     else:
         context['allTaskTabActive'] = True
@@ -90,7 +89,7 @@ def subTaskDetail(request, subtaskid):
 class CreateTaskView(LoginRequired, CreateView):
     template_name = 'task/create_task.html'
     model = Task
-    fields = ['name', 'project', 'description']
+    fields = ['name', 'assignee', 'project', 'description', 'start_date', 'end_date']
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -117,7 +116,7 @@ class UpdateTaskView(LoginRequired, AuthorshipRequired, UpdateView):
     template_name = 'task/edit_task.html'
     model = Task
     pk_url_kwarg = 'taskid'
-    fields = ['name', 'description']
+    fields = ['name', 'description', 'start_date', 'end_date']
 
     def get_success_url(self):
         task = self.get_object()
