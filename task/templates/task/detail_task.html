@@ -32,6 +32,13 @@
             {% else %}
                 <h3>Not available</h3>
             {% endif %}
+
+            {% if subtasks %}
+                <h3>List of Subtasks</h3>
+                {% for subtask in subtasks %}
+                    <a href="{% url 'subTaskDetail' subtask.id%}">{{ subtask.name }}</a>
+                {% endfor%}
+            {% endif%}
         </div>
     </div>
 {% endblock %}

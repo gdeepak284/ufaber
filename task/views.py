@@ -8,7 +8,7 @@ from django.views.generic import CreateView, ListView, UpdateView
 from django.views.generic.edit import DeleteView
 
 from .mixins import LoginRequired, AuthorshipRequired
-from .models import Task, Project
+from .models import Task, Project, SubTask
 
 
 # Create your views here.
@@ -70,13 +70,21 @@ class MyTaskView(TaskIndexView, LoginRequired):
 
 def taskDetail(request, taskid):
     task = get_object_or_404(Task, id=taskid)
-    context = {'task': task}
+    subtasks = SubTask.objects.filter(task=task)
+    context = {'task': task,
+               'subtasks': subtasks}
     if task.user == request.user:
         context['myTaskTabActive'] = True
     else:
         context['allTaskTabActive'] = True
 
     return render(request, 'task/detail_task.html', context)
+
+
+def subTaskDetail(request, subtaskid):
+    subtask = get_object_or_404(SubTask, id=subtaskid)
+    context = {'subtask': subtask}
+    return render(request, 'subtask/detail_subtask.html', context)
 
 
 class CreateTaskView(LoginRequired, CreateView):

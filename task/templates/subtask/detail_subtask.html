@@ -1,0 +1,22 @@
+{% extends 'main/base.html' %}
+{% load humanize %}
+
+{% block title %}{{subtask.name}} detail {% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+            {% if subtask %}
+                <h3><b>SubTask Name: </b>{{subtask.name}}</h3><hr>
+                <div class="row">
+                </div>
+
+                <h3><b>Description:</b></h3>
+                <p>{{subtask.description | safe}}</p>
+
+            {% else %}
+                <h3>Not available</h3>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
